@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="max-w-6xl mx-auto py-8 text-gray-100">
+  <h2 class="text-4xl font-bold text-yellow-400 mb-6 text-center">Owner Dashboard</h2>
+
+  <div class="grid grid-cols-2 gap-6 mb-8">
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+      <h3 class="text-xl font-semibold mb-2">Total Bookings</h3>
+      <p class="text-3xl">{{ total_bookings }}</p>
+    </div>
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+      <h3 class="text-xl font-semibold mb-2">Total Earnings</h3>
+      <p class="text-3xl">₹ {{ total_earnings }}</p>
+    </div>
+  </div>
+
+  <div class="bg-gray-800 p-6 rounded-xl shadow-lg overflow-x-auto">
+    <h3 class="text-xl font-semibold mb-4">Room Details</h3>
+    <table class="min-w-full border border-gray-700">
+      <thead class="bg-gray-700">
+        <tr>
+          <th class="p-2 border">Room</th>
+          <th class="p-2 border">Guest</th>
+          <th class="p-2 border">Room Type</th>
+          <th class="p-2 border">Check-In</th>
+          <th class="p-2 border">Check-Out</th>
+          <th class="p-2 border">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in room_stats %}
+        <tr class="hover:bg-gray-700 transition">
+          <td class="p-2 border">{{ r.room_number }}</td>
+          <td class="p-2 border">{{ r.guest_name }}</td>
+          <td class="p-2 border">{{ r.room_type }}</td>
+          <td class="p-2 border">{{ r.check_in }}</td>
+          <td class="p-2 border">{{ r.check_out }}</td>
+          <td class="p-2 border">₹ {{ r.price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

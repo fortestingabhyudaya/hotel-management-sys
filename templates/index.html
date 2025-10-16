@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abhyudaya Residency</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+ {% extends "base.html" %}
+
+{% block body %}
+<section class="flex flex-col justify-center items-center min-h-[80vh] text-center animate-fadeIn">
+  <h1 class="text-6xl md:text-7xl font-extrabold text-yellow-400 mb-4 animate-slideInLeft">
+    Welcome to Abhi Residency
+  </h1>
+  <p class="text-gray-300 text-lg max-w-xl mb-8 animate-fadeIn delay-200">
+    A luxurious hotel dashboard with smooth animations and premium UI.
+  </p>
+
+  <div class="flex gap-4">
+    <a href="/guest" class="btn-primary">Book a Room</a>
+    <a href="/admin" class="btn-secondary">Staff Portal</a>
+  </div>
+</section>
+{% endblock %}
+
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

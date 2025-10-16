@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block body %}
+<section class="max-w-7xl mx-auto p-6 animate-fadeIn">
+  <h2 class="text-4xl font-semibold text-yellow-400 mb-6 text-center">Owner Dashboard</h2>
+
+  <div class="flex justify-between items-center mb-6">
+    <div class="space-x-4">
+      <button id="currentBtn" class="btn-primary">Current Bookings</button>
+      <button id="pastBtn" class="btn-secondary">Past Bookings</button>
+    </div>
+    <div class="text-gray-300 font-semibold">
+      Total Earnings: <span id="totalEarnings">0</span> ₹
+    </div>
+  </div>
+
+  <div id="bookingsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for b in bookings['bookings'] %}
+    <div class="bg-gray-800/70 rounded-xl p-4 border border-yellow-800/40 shadow hover:scale-105 transition">
+      <h3 class="text-lg font-semibold text-yellow-400">{{ b.room_number }} - {{ b.room_type }}</h3>
+      <p class="text-gray-300"><strong>Guest:</strong> {{ b.name }}</p>
+      <p class="text-gray-300"><strong>Check-In:</strong> {{ b.check_in }}</p>
+      <p class="text-gray-300"><strong>Check-Out:</strong> {{ b.check_out }}</p>
+      <p class="text-gray-300"><strong>Price:</strong> {{ b.price }} ₹</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div id="pastContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
+    {% for b in past_bookings['bookings'] %}
+    <div class="bg-gray-900/70 rounded-xl p-4 border border-yellow-700/40 shadow hover:scale-105 transition">
+      <h3 class="text-lg font-semibold text-yellow-400">{{ b.room_number }} - {{ b.room_type }}</h3>
+      <p class="text-gray-300"><strong>Guest:</strong> {{ b.name }}</p>
+      <p class="text-gray-300"><strong>Check-In:</strong> {{ b.check_in }}</p>
+      <p class="text-gray-300"><strong>Check-Out:</strong> {{ b.check_out }}</p>
+      <p class="text-gray-300"><strong>Total Price:</strong> {{ b.price }} ₹</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  const currentBtn = document.getElementById('currentBtn');
+  const pastBtn = document.getElementById('pastBtn');
+  const bookingsContainer = document.getElementById('bookingsContainer');
+  const pastContainer = document.getElementById('pastContainer');
+  const totalEarningsEl = document.getElementById('totalEarnings');
+
+  function updateEarnings() {
+    let total = 0;
+    document.querySelectorAll('#bookingsContainer .text-gray-300 strong + text, #bookingsContainer .text-gray-300').forEach(el => {
+      const priceText = el.innerText || el.textContent;
+      const match = priceText.match(/\d+/);
+      if(match) total += parseInt(match[0]);
+    });
+    totalEarningsEl.innerText = total;
+  }
+
+  function showCurrent() {
+    bookingsContainer.classList.remove('hidden');
+    pastContainer.classList.add('hidden');
+    currentBtn.classList.add('bg-yellow-500', 'text-gray-900');
+    currentBtn.classList.remove('bg-gray-700', 'text-gray-200');
+    pastBtn.classList.remove('bg-yellow-500', 'text-gray-900');
+    pastBtn.classList.add('bg-gray-700', 'text-gray-200');
+    updateEarnings();
+  }
+
+  function showPast() {
+    bookingsContainer.classList.add('hidden');
+    pastContainer.classList.remove('hidden');
+    pastBtn.classList.add('bg-yellow-500', 'text-gray-900');
+    pastBtn.classList.remove('bg-gray-700', 'text-gray-200');
+    currentBtn.classList.remove('bg-yellow-500', 'text-gray-900');
+    currentBtn.classList.add('bg-gray-700', 'text-gray-200');
+    totalEarningsEl.innerText = '—';
+  }
+
+  currentBtn.addEventListener('click', showCurrent);
+  pastBtn.addEventListener('click', showPast);
+
+  // Initialize
+  showCurrent();
+</script>
+{% endblock %}

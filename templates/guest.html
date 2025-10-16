@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block body %}
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-zinc-900 to-slate-900 p-6 relative">
+  <div class="max-w-3xl w-full bg-gray-900/70 border border-yellow-900/40 rounded-2xl shadow-2xl p-8 animate-fadeIn">
+    
+    <h2 class="text-3xl md:text-4xl font-extrabold text-yellow-400 mb-6 text-center">
+      Guest Booking Portal
+    </h2>
+
+    <form id="bookingForm" class="space-y-4">
+      
+      <div class="flex flex-col md:flex-row gap-4">
+        <input type="text" id="name" placeholder="Guest Name" required
+          class="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-yellow-700/50 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition" />
+
+        <input type="email" id="email" placeholder="Email" required
+          class="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-yellow-700/50 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition" />
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4">
+        <input type="tel" id="phone" placeholder="Phone" required
+          class="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-yellow-700/50 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition" />
+
+        <select id="room_type" required
+          class="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-yellow-700/50 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition">
+          <option value="AC Deluxe">AC Deluxe</option>
+          <option value="AC Standard">AC Standard</option>
+          <option value="Non-AC">Non-AC</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4">
+        <input type="date" id="check_in" required
+          class="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-yellow-700/50 text-gray-100 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition" />
+        <input type="date" id="check_out" required
+          class="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-yellow-700/50 text-gray-100 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition" />
+      </div>
+
+      <button type="submit"
+        class="w-full px-6 py-3 mt-2 bg-gradient-to-r from-yellow-500/90 to-yellow-400/80 text-gray-900 font-semibold rounded-lg shadow-lg transform hover:-translate-y-0.5 active:scale-95 transition-all duration-300">
+        Book Now
+      </button>
+
+    </form>
+
+    <div class="mt-4 text-center text-gray-400 text-sm">
+      Already booked? <a href="/" class="text-yellow-400 hover:underline">Go back to Home</a>
+    </div>
+
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="hidden absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
+    <div class="text-center">
+      <div class="w-14 h-14 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <p class="mt-4 text-yellow-300 font-semibold tracking-wide">Booking your room...</p>
+    </div>
+  </div>
+</section>
+
+<!-- JS for Booking -->
+<script>
+const bookingForm = document.getElementById('bookingForm');
+const loadingOverlay = document.getElementById('loadingOverlay');
+
+bookingForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    loadingOverlay.classList.remove('hidden'); // Show loader
+
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        room_type: document.getElementById('room_type').value,
+        check_in: document.getElementById('check_in').value,
+        check_out: document.getElementById('check_out').value
+    };
+
+    try {
+        const res = await fetch('/api/book', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if(data.status === 'success'){
+            const query = new URLSearchParams({
+                name: formData.name,
+                room_number: data.room,
+                check_in: formData.check_in,
+                check_out: formData.check_out,
+                room_type: formData.room_type
+            }).toString();
+
+            setTimeout(() => {
+                window.location.href = `/guest/confirmation?${query}`;
+            }, 1000); // Smooth 1s delay
+        } else {
+            alert("Error booking room: " + data.message);
+        }
+    } catch (err) {
+        console.error("Booking error:", err);
+        alert("Booking failed! Check console for details.");
+    } finally {
+        loadingOverlay.classList.add('hidden'); // Hide loader
+    }
+});
+</script>
+{% endblock %}

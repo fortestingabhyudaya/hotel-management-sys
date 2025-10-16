@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abhyudaya Residency</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-gray-100 font-sans">
+
+  <!-- 🔥 Animated Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-black/40 backdrop-blur-md border-b border-yellow-800/30 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-3">
+      <a href="/" class="text-2xl font-extrabold text-yellow-400 tracking-wider hover:text-yellow-300 transition">Abhi Residency</a>
+      <div class="flex gap-6 text-sm">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/guest" class="nav-link">Guest Portal</a>
+        <a href="/admin" class="nav-link">Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 🔄 Animated Page Body -->
+  <main class="pt-24">
+    {% block body %}{% endblock %}
+  </main>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

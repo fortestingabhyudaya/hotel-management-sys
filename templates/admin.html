@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block body %}
+<script>
+let currentRoom = null;
+
+async function refreshRooms() {
+    try {
+        const response = await fetch('/api/bookings');
+        const data = await response.json();
+
+        // Reset all rooms
+        document.querySelectorAll('.room-pill').forEach(div => {
+            div.classList.remove('occupied', 'maint');
+            div.classList.add('vacant');
+            div.dataset.guest = '';
+            div.dataset.email = '';
+            div.dataset.phone = '';
+            div.dataset.checkin = '';
+            div.dataset.checkout = '';
+            div.dataset.room_type = '';
+        });
+
+        // Mark occupied rooms
+        data.bookings.forEach(b => {
+            const roomDiv = document.querySelector(`[data-room='${b.room_number}']`);
+            if (roomDiv) {
+                roomDiv.classList.remove('vacant');
+                roomDiv.classList.add('occupied');
+                roomDiv.dataset.guest = b.name;
+                roomDiv.dataset.email = b.email;
+                roomDiv.dataset.phone = b.phone;
+                roomDiv.dataset.checkin = b.check_in;
+                roomDiv.dataset.checkout = b.check_out;
+                roomDiv.dataset.room_type = b.room_type;
+            }
+        });
+    } catch (err) {
+        console.error("Error fetching bookings:", err);
+    }
+}
+
+function showRoomInfo(roomNum) {
+    currentRoom = roomNum;
+    const roomDiv = document.querySelector(`[data-room='${roomNum}']`);
+    const status = roomDiv.classList.contains('occupied') ? 'Occupied' : 'Vacant';
+
+    document.getElementById('modalRoom').innerText = `Room: ${roomNum} (${status})`;
+
+    if(status === 'Occupied'){
+        document.getElementById('modalGuest').innerHTML = `
+            <p><strong>Name:</strong> ${roomDiv.dataset.guest}</p>
+            <p><strong>Email:</strong> ${roomDiv.dataset.email}</p>
+            <p><strong>Phone:</strong> ${roomDiv.dataset.phone}</p>
+            <p><strong>Room Type:</strong> ${roomDiv.dataset.room_type}</p>
+            <p><strong>Check-In:</strong> ${roomDiv.dataset.checkin}</p>
+            <p><strong>Check-Out:</strong> ${roomDiv.dataset.checkout}</p>
+        `;
+    } else {
+        document.getElementById('modalGuest').innerText = 'Vacant';
+    }
+
+    document.getElementById('roomModal').classList.remove('hidden');
+}
+
+function closeModal(){
+    document.getElementById('roomModal').classList.add('hidden');
+}
+
+async function checkoutRoom(){
+    if(!currentRoom) return;
+
+    const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room_number: currentRoom })
+    });
+
+    if(response.ok){
+        alert("Room checked out!");
+        closeModal();
+        refreshRooms(); // live refresh without reload
+    } else {
+        alert("Error checking out room.");
+    }
+}
+
+// Auto-refresh every 2 seconds
+setInterval(refreshRooms, 2000);
+refreshRooms(); // initial load
+</script>
+
+<section class="max-w-6xl mx-auto animate-fadeIn">
+  <h2 class="text-4xl font-semibold text-yellow-400 mb-6 text-center">Admin Dashboard</h2>
+
+  <div class="space-y-6">
+    {% for floor in [3,2,1] %}
+    <div class="bg-gray-800/70 p-4 rounded-xl border border-yellow-800/40">
+      <h3 class="text-lg font-semibold text-gray-200 mb-2">Floor {{ floor }}</h3>
+      <div class="grid grid-cols-8 gap-2">
+        {% for room in range(1,9) %}
+        {% set room_num = floor ~ '0' ~ room %}
+        <div 
+          class="room-pill vacant cursor-pointer hover:scale-110 transition-all" 
+          data-room="{{ room_num }}" 
+          onclick="showRoomInfo('{{ room_num }}')"
+        >
+          {{ room_num }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Room Info Modal -->
+  <div id="roomModal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
+    <div class="bg-gray-900 rounded-2xl p-6 w-96 text-gray-200 relative animate-fadeIn">
+      <h3 class="text-xl font-semibold mb-2" id="modalRoom"></h3>
+      <div id="modalGuest" class="mb-4"></div>
+      <button onclick="checkoutRoom()" class="btn-primary w-full mb-2">Check Out</button>
+      <button onclick="closeModal()" class="absolute top-2 right-3 text-gray-400 hover:text-gray-100">✖</button>
+    </div>
+  </div>
+</section>
+{% endblock %}
