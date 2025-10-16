@@ -1,0 +1,110 @@
+{
+  "bookings": [
+    {
+      "name": "Vagmi",
+      "email": "vagmijain@gmail.com",
+      "phone": "8869810110",
+      "room_type": "AC Deluxe",
+      "check_in": "2025-10-14",
+      "check_out": "2025-10-18",
+      "room_number": "308",
+      "price": 20000
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Standard",
+      "check_in": "2025-10-15",
+      "check_out": "2025-10-16",
+      "room_number": "304",
+      "price": 3500,
+      "total_price": 3500
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Deluxe",
+      "check_in": "2025-10-15",
+      "check_out": "2025-10-16",
+      "room_number": "207",
+      "price": 5000,
+      "total_price": 5000
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Deluxe",
+      "check_in": "2025-10-15",
+      "check_out": "2025-10-16",
+      "room_number": "105",
+      "price": 5000,
+      "total_price": 5000
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Standard",
+      "check_in": "2025-10-15",
+      "check_out": "2025-10-16",
+      "room_number": "304",
+      "price": 3500,
+      "total_price": 3500
+    },
+    {
+      "name": "Abhyudaya Jain",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "Non-AC",
+      "check_in": "2025-10-23",
+      "check_out": "2025-10-25",
+      "room_number": "306",
+      "price": 5000
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Deluxe",
+      "check_in": "2025-10-17",
+      "check_out": "2025-10-25",
+      "room_number": "308",
+      "price": 40000
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Deluxe",
+      "check_in": "2025-10-15",
+      "check_out": "2025-10-16",
+      "room_number": "207",
+      "price": 5000,
+      "total_price": 5000
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Deluxe",
+      "check_in": "2025-10-15",
+      "check_out": "2025-10-16",
+      "room_number": "105",
+      "price": 5000,
+      "total_price": 5000
+    },
+    {
+      "name": "abhyudaya",
+      "email": "abhyudayapjain@gmail.com",
+      "phone": "09997430585",
+      "room_type": "AC Deluxe",
+      "check_in": "2025-10-17",
+      "check_out": "2025-10-25",
+      "room_number": "101",
+      "price": 40000
+    }
+  ]
+}
