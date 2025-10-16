@@ -1,0 +1,88 @@
+/* Fade + Slide animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideInLeft { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+.animate-fadeIn { animation: fadeIn 0.8s ease-out; }
+.animate-slideInLeft { animation: slideInLeft 0.8s ease-out; }
+
+/* Navbar links */
+.nav-link {
+  color: #facc15;
+  transition: all 0.2s;
+}
+.nav-link:hover {
+  color: #fde68a;
+  text-shadow: 0 0 10px #facc15;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(to right, #facc15, #fbbf24);
+  color: #111;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px #facc15;
+}
+
+.btn-secondary {
+  border: 1px solid #facc15;
+  color: #facc15;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+.btn-secondary:hover {
+  background: rgba(250, 204, 21, 0.1);
+  transform: translateY(-3px);
+}
+
+/* Room Pills */
+.room-pill {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 8px 0;
+  border-radius: 6px;
+  transition: transform 0.2s;
+}
+.room-pill:hover {
+  transform: scale(1.05);
+}
+.room-pill.vacant { background: rgba(16, 185, 129, 0.8); }
+.room-pill.occupied { background: rgba(220, 38, 38, 0.8); }
+.room-pill.maint { background: rgba(234, 179, 8, 0.8); }
+
+/* Inputs */
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  border-color: #facc15;
+}
+.room-pill.vacant { background: rgba(16, 185, 129, 0.8); }
+.room-pill.occupied { background: rgba(220, 38, 38, 0.8); }
+.room-pill.maint { background: rgba(234, 179, 8, 0.8); }
+.room-pill {
+  text-align:center;
+  font-weight:500;
+  padding:8px 0;
+  border-radius:6px;
+  transition: all 0.2s;
+  color: white;
+}
+.room-pill:hover { transform: scale(1.1); box-shadow: 0 0 10px #facc15; }
+#roomModal { display: flex; }
+#roomModal.hidden { display: none; }
